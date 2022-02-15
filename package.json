@@ -1,7 +1,7 @@
 {
-  "name": "intl",
+  "name": "@locmod/intl",
   "version": "1.0.0",
-  "description": "--- title: Intl ---",
+  "description": "This is lightweight copycat of `react-intl` package with minimal functionality",
   "main": "index.ts",
   "scripts": {
     "test": "test"
@@ -10,9 +10,18 @@
     "intl"
   ],
   "author": "Local-Modules",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "react": "^17.0.2",
     "@types/react": "^17.0.39"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Local-Modules/intl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Local-Modules/intl/issues"
+  },
+  "homepage": "https://github.com/Local-Modules/intl#readme"
 }

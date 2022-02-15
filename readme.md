@@ -2,7 +2,7 @@
 title: Intl
 ---
 
-This is lightweight copycat of `react-intl` package with minimal functionality we need in Scentbird.
+This is lightweight copycat of `react-intl` package with minimal functionality.
 
 :::note
 
