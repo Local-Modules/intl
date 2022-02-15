@@ -1,7 +1,7 @@
 // CLDR - https://www.unicode.org/cldr/charts/34/supplemental/language_plural_rules.html
 
 const plural = {
-  en: (n: number, ord: boolean) => {
+  en: (n: number, ord: boolean = false) => {
     const s = String(n).split('.')
     const v0 = !s[1]
     const t0 = Number(s[0]) === n

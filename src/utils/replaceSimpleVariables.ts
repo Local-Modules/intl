@@ -10,6 +10,7 @@ const replaceSimpleVariables = (message: string, values = {}) =>
   // there is no way to math variables first and then iterate by them, coz if we try to find {variable} we match
   // variables in variables - {sex, select, female {perfume} male {cologne} unisex {fragrance}}
   Object.keys(values).reduce((res, key) => {
+    // @ts-ignore
     const value = values[key]
 
     if (value === null || value === undefined) {

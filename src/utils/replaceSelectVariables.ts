@@ -14,7 +14,8 @@ const variableRegex = /{\w+, select,(\s\w+ {[^}]+}){2,}}/g
  *
  * result: perfume
  */
-const replaceSelectVariable = (message: Message, values: Values, variable): string => {
+
+const replaceSelectVariable = (message: Message, values: Values, variable: any): string => {
   const variableValues = getVariableValues(variable)
   const valueKey = variable.match(/(?!{)\w+/)[0] // sex
   let variableKey = values ? values[valueKey] : null // female

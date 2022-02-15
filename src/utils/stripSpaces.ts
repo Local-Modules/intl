@@ -1,4 +1,4 @@
-const stripSpaces = (message: string): string => (
+const stripSpaces = (message: string) => (
   message
     .replace(/\s{2,}/g, ' ')
     .replace(/<br\s?\/>\s+/g, '<br />')

@@ -19,6 +19,7 @@ const replacePluralVariables = (message: string, values: { [key: string]: any },
     try {
       variables.forEach((variable) => {
         const variableValues = getVariableValues(variable)
+        // @ts-ignore
         const valueKey = variable.match(/[^,{]+/)[0] // count
         const value = values ? values[valueKey] : null // 23
 
@@ -32,6 +33,7 @@ const replacePluralVariables = (message: string, values: { [key: string]: any },
           result = variableValues[variableKey].replace(/#\s?/g, '') // products
         }
         else {
+          // @ts-ignore
           variableKey = plural[locale](value) // other
 
           if (!variableValues[variableKey]) {

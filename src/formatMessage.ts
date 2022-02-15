@@ -14,9 +14,12 @@ const formatMessage = (locale: string = 'en', message: Intl.MessageTranslation, 
     return '{{ missed_translation }}'
   }
 
+  // @ts-ignore
   let fMessage = stripSpaces(message[locale])
 
+  // @ts-ignore
   fMessage = replaceSelectVariables(fMessage, values)
+  // @ts-ignore
   fMessage = replacePluralVariables(fMessage, values, locale)
   fMessage = replaceSimpleVariables(fMessage, values)
 

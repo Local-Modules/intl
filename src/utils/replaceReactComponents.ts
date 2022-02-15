@@ -6,6 +6,7 @@ export const getComponentProps = (message: string): { [key: string]: any } => {
   const props = {}
 
   if (/<\w+\s*\/>/.test(message)) {
+    // @ts-ignore
     return
   }
 
@@ -23,12 +24,14 @@ export const getComponentProps = (message: string): { [key: string]: any } => {
 
   emptyProps.forEach((prop) => {
     if (prop) {
+      // @ts-ignore
       props[prop] = true
     }
   })
 
   const valuedProps = attrsPart.trim().match(/\w+\s*=\s*['"][^"]*?['"]/g) // [ 'valueAttr1="/queue"', 'valueAttr2=" value "', 'emptyAttr=""' ]
 
+  // @ts-ignore
   valuedProps.forEach((match) => {
     let [ key, value ] = match.trim().split('=') as [ any, any ]
 
@@ -43,6 +46,7 @@ export const getComponentProps = (message: string): { [key: string]: any } => {
       value = false
     }
 
+    // @ts-ignore
     props[key] = value
   })
 
@@ -50,20 +54,24 @@ export const getComponentProps = (message: string): { [key: string]: any } => {
 }
 
 export const getComponentChildren = (message: string): string => {
+  // @ts-ignore
   const componentName = message.match(/<(\w+)/)[1]
 
   // <Icon />
   if (/^<[^>]+\/>$/.test(message)) {
+    // @ts-ignore
     return undefined
   }
 
   // <Link to="/">bar</Link>
   // complex regex to be sure that value be matched properly even if the content is "< apple>banana<grape>"
+  // @ts-ignore
   return message.match(new RegExp(`<\\s*${componentName}[^>]+?>(.*)<\/\\s*${componentName}\\s*>`))[1]
 }
 
-export const createComponent = (message, components): React.ReactElement => {
+export const createComponent = (message: string, components: any): React.ReactElement => {
   try {
+    // @ts-ignore
     const componentName = message.match(/<(\w+)/)[1]
     const component = components[componentName]
     const props = getComponentProps(message)
@@ -74,6 +82,7 @@ export const createComponent = (message, components): React.ReactElement => {
   catch (err) {
     console.error(err)
     // TODO add error handling - added on 10/12/20 by pavelivanov
+    // @ts-ignore
     return null
   }
 }
