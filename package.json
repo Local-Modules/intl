@@ -1,0 +1,14 @@
+{
+  "name": "intl",
+  "version": "1.0.0",
+  "description": "--- title: Intl ---",
+  "main": "src/index.tsx",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "intl"
+  ],
+  "author": "Local-Modules",
+  "license": "ISC"
+}
