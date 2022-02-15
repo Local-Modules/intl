@@ -1,4 +1,6 @@
-declare namespace Intl {
+export {}
+declare global {
+  namespace Intl {
 
   type MessageValues = {
     [key: string]: any
@@ -21,4 +23,6 @@ declare namespace Intl {
   type Components = {
     [key: string]: any
   }
+}
+
 }
