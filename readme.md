@@ -1,6 +1,8 @@
-# Intl
+---
+title: Intl
+---
 
-This is lightweight copycat of `react-intl` package with minimal functionality.
+This is lightweight copycat of `react-inlt` package with minimal functionality we need in Scentbird.
 
 :::note
 
@@ -70,7 +72,7 @@ const App = () => {
 
 **Component Props**
 
-`value` - string | Message<br />
+`value` - string | Intl.Message<br />
 `html` - boolean, "false" by default
 
 `<Message />` is ended component and like tags can receive any additional attribute.
