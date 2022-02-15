@@ -1,6 +1,4 @@
----
-title: Intl
----
+# Intl
 
 This is lightweight copycat of `react-intl` package with minimal functionality.
 
@@ -72,7 +70,7 @@ const App = () => {
 
 **Component Props**
 
-`value` - string | Intl.Message<br />
+`value` - string | Message<br />
 `html` - boolean, "false" by default
 
 `<Message />` is ended component and like tags can receive any additional attribute.
