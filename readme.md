@@ -1,16 +1,11 @@
----
-title: Intl
----
+# Intl
 
 This is lightweight copycat of `react-inlt` package with minimal functionality we need in Scentbird.
 
-:::note
+## note
 
 For now we have only EN locale and there is no requirements to extract translations to json. All translations 
 injected to js bundle.
-
-::: 
-
 
 
 ## Installation
@@ -72,7 +67,7 @@ const App = () => {
 
 **Component Props**
 
-`value` - string | Intl.Message<br />
+`value` - string | IntlMessage<br />
 `html` - boolean, "false" by default
 
 `<Message />` is ended component and like tags can receive any additional attribute.
