@@ -1,6 +1,6 @@
 {
   "name": "@locmod/intl",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This is lightweight copycat of `react-intl` package with minimal functionality",
   "module": "dist/index.es.js",
   "main": "lib/index.js",
@@ -9,8 +9,7 @@
     "test": "echo \"Error: no test specified\"",
     "dev": "rollup -cw",
     "build": "rimraf ./dist && rimraf ./lib && rollup -c --compact",
-    "prepublish": "npm run build && npm run test",
-    "publish": "npm run prepublish && npm publish --access public"
+    "prepublish": "npm run build && npm run test"
   },
   "keywords": [
     "intl"
@@ -49,9 +48,5 @@
     "url": "https://github.com/Local-Modules/intl/issues"
   },
   "homepage": "https://github.com/Local-Modules/intl#readme",
-  "files": [
-    "lib",
-    "dist"
-  ],
   "dependencies": {}
 }
