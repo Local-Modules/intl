@@ -1,6 +1,6 @@
 {
   "name": "@locmod/intl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is lightweight copycat of `react-intl` package with minimal functionality",
   "module": "dist/index.es.js",
   "main": "lib/index.js",
