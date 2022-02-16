@@ -1,4 +1,5 @@
 import React from 'react'
+import { IntlComponents } from '../types'
 
 
 // <Button boolAttr1 valueAttr1="/queue" valueAttr2=" value " emptyAttr="" boolAttr2>content</Button>
@@ -104,7 +105,7 @@ export const createComponent = (message: string, components: any): React.ReactEl
  *   "<Href>kek</Href>",
  * ]
  */
-const replaceReactComponents = (message: string, components: Intl.Components): any[] => {
+const replaceReactComponents = (message: string, components: IntlComponents): any[] => {
   const componentNames = Object.keys(components || {})
 
   if (!componentNames.length) {

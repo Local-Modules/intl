@@ -1,28 +1,22 @@
-export {}
-declare global {
-  namespace Intl {
-
-  type MessageValues = {
-    [key: string]: any
-  }
-
-  type MessageComponents = {
-    [key: string]: any
-  }
-
-  type MessageTranslation = {
-    en: string
-    es?: string
-  }
-
-  type Message = MessageTranslation & {
-    values?: MessageValues
-    components?: MessageComponents
-  }
-
-  type Components = {
-    [key: string]: any
-  }
+export type IntlMessageValues = {
+  [key: string]: any
 }
 
+export type IntlMessageComponents = {
+  [key: string]: any
 }
+
+export type IntlMessageTranslation = {
+  en: string
+  es?: string
+}
+
+export type IntlMessage = IntlMessageTranslation & {
+  values?: IntlMessageValues
+  components?: IntlMessageComponents
+}
+
+export type IntlComponents = {
+  [key: string]: any
+}
+

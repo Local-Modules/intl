@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { IntlMessage } from './types'
 
 import useIntl from './useIntl'
 import replaceReactComponents from './utils/replaceReactComponents'
@@ -6,7 +7,7 @@ import replaceReactComponents from './utils/replaceReactComponents'
 
 type MessageProps = {
   className?: string
-  value: string | Intl.Message
+  value: string | IntlMessage
   tag?: string
   html?: boolean
   onClick?: React.MouseEventHandler<HTMLElement>

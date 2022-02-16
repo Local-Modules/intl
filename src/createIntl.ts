@@ -1,8 +1,9 @@
 import formatMessage from './formatMessage'
+import { IntlMessageTranslation, IntlMessageValues } from './types'
 
 
 type CreateIntlResult = {
-  formatMessage: (message: Intl.MessageTranslation, values?: Intl.MessageValues) => string
+  formatMessage: (message: IntlMessageTranslation, values?: IntlMessageValues) => string
   setLocale: (locale: string) => void
 }
 

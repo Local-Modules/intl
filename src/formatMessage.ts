@@ -2,9 +2,10 @@ import replaceSimpleVariables from './utils/replaceSimpleVariables'
 import replacePluralVariables from './utils/replacePluralVariables'
 import replaceSelectVariables from './utils/replaceSelectVariables'
 import stripSpaces from './utils/stripSpaces'
+import type { IntlMessageTranslation, IntlMessageValues} from './types'
 
 
-const formatMessage = (locale: string = 'en', message: Intl.MessageTranslation, values?: Intl.MessageValues) => {
+const formatMessage = (locale: string = 'en', message: IntlMessageTranslation, values?: IntlMessageValues) => {
   if (typeof message === 'string') {
     return message
   }
