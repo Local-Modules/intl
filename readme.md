@@ -1,6 +1,6 @@
 # Intl
 
-This is lightweight copycat of `react-inlt` package with minimal functionality we need in Scentbird.
+This is lightweight copycat of `react-inlt` package with minimal functionality.
 
 **Note**: For now we have only EN locale and there is no requirements to extract translations to json. All translations 
 injected to js bundle.
@@ -16,7 +16,7 @@ import { IntlProvider, Message } from 'intl'
 
 const messages = {
   title: {
-    en: 'Scentbird',
+    en: 'Hello World',
   },
 }
 
@@ -34,7 +34,7 @@ All intl messages should be written separately from components in `messages.ts`.
 ```javascript
 const messages = {
   title: {
-    en: 'Scentbird',
+    en: 'Hello World',
   },
   content: {
     en: 'Hello, <b>{username}</b>',
