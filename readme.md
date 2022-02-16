@@ -2,9 +2,7 @@
 
 This is lightweight copycat of `react-inlt` package with minimal functionality we need in Scentbird.
 
-## note
-
-For now we have only EN locale and there is no requirements to extract translations to json. All translations 
+**Note**: For now we have only EN locale and there is no requirements to extract translations to json. All translations 
 injected to js bundle.
 
 
@@ -100,12 +98,7 @@ const App = () => {
 }
 ```
 
-:::warning
-
-Please use `<Message />` when it's possible, and avoid of using `intl.formatMessage` when it's not necessary. 
-
-::: 
-
+**Warning**: Please use `<Message />` when it's possible, and avoid of using `intl.formatMessage` when it's not necessary. 
 
 ## Message Syntax
 
