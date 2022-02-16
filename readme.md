@@ -8,6 +8,8 @@ injected to js bundle.
 
 ## Installation
 
+Add `/// <reference types="@locmod/intl" />` into your `next-env.d.ts`
+
 ```jsx harmony
 import React from 'react'
 import { IntlProvider, Message } from 'intl'

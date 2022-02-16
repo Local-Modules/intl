@@ -4,7 +4,7 @@
   "description": "This is lightweight copycat of `react-intl` package with minimal functionality",
   "module": "dist/index.es.js",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "dev": "rollup -cw",

@@ -7,11 +7,3 @@ export {
   Message,
   useIntl,
 }
-
-export type { 
-  IntlMessage, 
-  IntlComponents, 
-  IntlMessageComponents, 
-  IntlMessageTranslation, 
-  IntlMessageValues 
-} from './types'
