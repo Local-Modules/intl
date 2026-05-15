@@ -1,52 +1,51 @@
 import getVariableValues from './getVariableValues'
-
-
-type Message = string
-type Values = { [key: string]: any }
+import type { IntlErrorHandler, IntlMessageValues } from '../types'
 
 const variableRegex = /{\w+, select,(\s\w+ {[^}]+}){2,}}/g
 
 /**
- * Replace variables with value based on passed values
- *
  * message: "{sex, select, female {perfume} male {cologne} unisex {fragrance}}"
- * values: { sex: 'female' }
+ * values:  { sex: 'female' }
+ * result:  "perfume"
  *
- * result: perfume
+ * If the value is missing or doesn't match a clause, falls back to `other`
+ * (or the first clause when there's no `other`).
  */
-
-const replaceSelectVariable = (message: Message, values: Values, variable: any): string => {
+const replaceSelectVariable = (message: string, values: IntlMessageValues | undefined, variable: string): string => {
   const variableValues = getVariableValues(variable)
-  const valueKey = variable.match(/(?!{)\w+/)[0] // sex
-  let variableKey = values ? values[valueKey] : null // female
+  const valueKeyMatch = variable.match(/(?!{)\w+/)
 
-  // if value not passed set value from the variable (first item) - unisex
+  if (!valueKeyMatch) {
+    return message
+  }
+
+  const valueKey = valueKeyMatch[0]
+  let variableKey = values ? (values[valueKey] as string | null | undefined) : null
+
   if (!variableKey || !variableValues[variableKey]) {
-    // TODO trigger error - added on 10/12/20 by pavelivanov
-    variableKey = 'other' in variableValues ? 'other' : Object.keys(variableValues)[0] // eslint-disable-line
+    variableKey = 'other' in variableValues ? 'other' : Object.keys(variableValues)[0]
   }
 
-  const result = variableValues[variableKey] // perfume
-
-  return message.replace(variable, result)
+  return message.replace(variable, variableValues[variableKey] ?? '')
 }
 
-const replaceSelectVariables = (message: Message, values: Values): string => {
-  const variables = message.match(variableRegex) // [ '{sex, select, female {perfume} male {cologne} unisex {fragrance}}' ]
-
-  if (variables?.length) {
-    try {
-      variables.forEach((variable) => {
-        message = replaceSelectVariable(message, values, variable)
-      })
-    }
-    catch (err) {
-      console.error(err)
-    }
+const replaceSelectVariables = (
+  message: string,
+  values: IntlMessageValues | undefined,
+  onError?: IntlErrorHandler
+): string => {
+  const variables = message.match(variableRegex)
+  if (!variables?.length) {
+    return message
   }
 
-  return message
+  try {
+    return variables.reduce((acc, variable) => replaceSelectVariable(acc, values, variable), message)
+  }
+  catch (err) {
+    onError?.(`replaceSelectVariables failed: ${(err as Error).message}`)
+    return message
+  }
 }
-
 
 export default replaceSelectVariables

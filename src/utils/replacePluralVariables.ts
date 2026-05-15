@@ -1,58 +1,64 @@
 import plural from './plural'
 import getVariableValues from './getVariableValues'
-
+import type { IntlErrorHandler, IntlMessageValues } from '../types'
 
 const variableRegex = /{\w+, plural,(\s\w+ {#?[^#}]+}){2,}}/g
 
 /**
- * Replace variables with value based on passed values
- *
  * message: "{count, plural, one {# product} other {# products}}"
- * values: { count: 23 }
- *
- * result: 23 products
+ * values:  { count: 23 }
+ * result:  "23 products"
  */
-const replacePluralVariables = (message: string, values: { [key: string]: any }, locale: string): string => {
-  const variables = message.match(variableRegex) // [ '{count, plural, one {# product} other {# products}}' ]
+const replacePluralVariables = (
+  message: string,
+  values: IntlMessageValues | undefined,
+  locale: string,
+  onError?: IntlErrorHandler
+): string => {
+  const variables = message.match(variableRegex)
+  if (!variables?.length) {
+    return message
+  }
 
-  if (variables?.length) {
-    try {
-      variables.forEach((variable) => {
-        const variableValues = getVariableValues(variable)
-        // @ts-ignore
-        const valueKey = variable.match(/[^,{]+/)[0] // count
-        const value = values ? values[valueKey] : null // 23
+  try {
+    return variables.reduce((acc, variable) => {
+      const variableValues = getVariableValues(variable)
+      const valueKeyMatch = variable.match(/[^,{]+/)
+      if (!valueKeyMatch) {
+        return acc
+      }
+      const valueKey = valueKeyMatch[0]
+      const value = values ? values[valueKey] : null
 
-        let variableKey
-        let result
+      let variableKey: string
+      let result: string
 
-        // if value not passed set pluralKey value from the variable (first item) - other
-        if (value === null || value === undefined) {
-          // TODO trigger error - added on 10/12/20 by pavelivanov
-          variableKey = 'other' in variableValues ? 'other' : Object.keys(variableValues)[0] // eslint-disable-line
-          result = variableValues[variableKey].replace(/#\s?/g, '') // products
+      if (value === null || value === undefined) {
+        variableKey = 'other' in variableValues ? 'other' : Object.keys(variableValues)[0]
+        result = variableValues[variableKey].replace(/#\s?/g, '')
+      }
+      else {
+        const pluralFn = plural[locale]
+        if (!pluralFn) {
+          onError?.(`No plural rules for locale "${locale}", falling back to "other"`)
+          variableKey = 'other'
         }
         else {
-          // @ts-ignore
-          variableKey = plural[locale](value) // other
-
+          variableKey = pluralFn(Number(value))
           if (!variableValues[variableKey]) {
             variableKey = 'other'
           }
-
-          result = variableValues[variableKey].replace(/#/g, value) // 23 products
         }
+        result = (variableValues[variableKey] ?? '').replace(/#/g, String(value))
+      }
 
-        message = message.replace(variable, result)
-      })
-    }
-    catch (err) {
-
-    }
+      return acc.replace(variable, result)
+    }, message)
   }
-
-  return message
+  catch (err) {
+    onError?.(`replacePluralVariables failed: ${(err as Error).message}`)
+    return message
+  }
 }
-
 
 export default replacePluralVariables

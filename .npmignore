@@ -1,3 +1,11 @@
 .vscode
-rollup.config.js
+.idea
+.github
+*.local*
+src
+tsup.config.ts
 tsconfig.json
+vitest.config.ts
+coverage
+*.test.ts
+*.test.tsx

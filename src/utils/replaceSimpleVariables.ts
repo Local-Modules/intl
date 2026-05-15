@@ -1,29 +1,24 @@
+import type { IntlMessageValues } from '../types'
+
 /**
- * Replace pure {value} variables
+ * Replace bare {key} placeholders with values.
  *
  * message: "Price - ${value}"
- * values: { value: 100 }
+ * values:  { value: 100 }
+ * result:  "Price - $100"
  *
- * result: Price - $100
+ * NOTE: we match per-key (not "find every {x}") to avoid clobbering placeholders
+ * inside select/plural clauses — those must already be resolved before this runs.
  */
-const replaceSimpleVariables = (message: string, values = {}) =>
-  // there is no way to math variables first and then iterate by them, coz if we try to find {variable} we match
-  // variables in variables - {sex, select, female {perfume} male {cologne} unisex {fragrance}}
+const replaceSimpleVariables = (message: string, values: IntlMessageValues = {}): string =>
   Object.keys(values).reduce((res, key) => {
-    // @ts-ignore
     const value = values[key]
-
     if (value === null || value === undefined) {
       return res
     }
-
-    // prevent of replacing value in variables (that matching the variable name)
-    // example message - 'Some {key} with {check, plural, one {key} other {something}}'
-    // const escapeFormulasRegexp = `{${key}}(?!([^{]+)?(({[^{}]+}([^{}]+)?)+)?})`
-    //
-    // here the ductape "() => values[key]" to fix Safari 11.* bug - '{value}'.replace(/{value}/g, '$14.95') becomes '4.95'
-    return res.replace(new RegExp(`{${key}}`, 'g'), () => value)
+    // Lambda form sidesteps a Safari 11 bug where `'{value}'.replace(/{value}/g, '$14.95')`
+    // is interpreted as a `$1` backreference and silently drops the leading character.
+    return res.replace(new RegExp(`{${key}}`, 'g'), () => String(value))
   }, message)
-
 
 export default replaceSimpleVariables

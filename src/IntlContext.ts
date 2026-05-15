@@ -1,9 +1,6 @@
-import React from 'react'
+import { createContext } from 'react'
+import type { IntlInternal } from './types'
 
-import createIntl from './createIntl'
+const IntlContext = createContext<IntlInternal | null>(null)
 
-// @ts-ignore
-const Context = React.createContext<ReturnType<typeof createIntl>>(null)
-
-
-export default Context
+export default IntlContext
