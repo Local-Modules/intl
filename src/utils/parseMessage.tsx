@@ -107,6 +107,21 @@ const parseMessage = (
     }
   }
 
+  // The browser's native HTML5 parser ignores '/>' for non-void elements —
+  // '<Foo />' is treated as an open tag that swallows all subsequent siblings as
+  // its children. Expand each known self-closing component tag to an explicit
+  // open/close pair so both the server (htmlparser2) and browser parsers see a
+  // properly-closed element.
+  let src = template
+  if (components) {
+    const names = Object.keys(components)
+    if (names.length > 0) {
+      const escaped = names.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      const pattern = new RegExp(`<(${escaped.join('|')})([^>]*?)\\/>`,'gi')
+      src = src.replace(pattern, '<$1$2></$1>')
+    }
+  }
+
   const options: HTMLReactParserOptions = {
     htmlparser2: {
       recognizeSelfClosing: true,
@@ -150,7 +165,7 @@ const parseMessage = (
     },
   }
 
-  return parse(template, options)
+  return parse(src, options)
 }
 
 export default parseMessage

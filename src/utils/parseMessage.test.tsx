@@ -29,6 +29,26 @@ describe('parseMessage', () => {
     expect(container.querySelector('[data-testid="icon"]')).not.toBeNull()
   })
 
+  it('preserves text after a self-closing component tag', () => {
+    const { container } = renderNode(parseMessage('before <Icon /> after', undefined, { Icon }))
+    expect(container.textContent).toContain('after')
+  })
+
+  it('preserves text after a self-closing component tag with attributes', () => {
+    const { container } = renderNode(parseMessage('before <Icon id="1" /> after', undefined, { Icon }))
+    expect(container.textContent).toContain('after')
+  })
+
+  it('preserves multiple siblings after self-closing component tags', () => {
+    const { container } = renderNode(
+      parseMessage('a <Icon /> b <Link to="/x">c</Link> d', undefined, { Icon, Link })
+    )
+    expect(container.textContent).toContain('b')
+    expect(container.textContent).toContain('d')
+    expect(container.querySelector('[data-testid="icon"]')).not.toBeNull()
+    expect(container.querySelector('a')?.textContent).toBe('c')
+  })
+
   it('passes attributes through as component props', () => {
     const { container } = renderNode(
       parseMessage('<Link to="/x">go</Link>', undefined, { Link })
