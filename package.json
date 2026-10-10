@@ -1,6 +1,6 @@
 {
   "name": "@locmod/intl",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Lightweight react-intl alternative with minimal API.",
   "type": "module",
   "module": "./dist/index.js",

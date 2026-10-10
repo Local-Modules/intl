@@ -29,4 +29,40 @@ const en: PluralFn = (n, ord = false) => {
 
 const plural: Record<string, PluralFn> = { en }
 
-export default plural
+// One Intl.PluralRules per locale; `null` marks a locale the runtime has no rules for.
+const intlRules = new Map<string, Intl.PluralRules | null>()
+
+const getIntlRules = (locale: string): Intl.PluralRules | null => {
+  let rules = intlRules.get(locale)
+
+  if (rules === undefined) {
+    try {
+      // supportedLocalesOf filters out tags the runtime has no data for. Without it, an unknown tag would silently
+      // take the runtime's default locale rules.
+      rules = Intl.PluralRules.supportedLocalesOf(locale).length ? new Intl.PluralRules(locale) : null
+    }
+    catch {
+      // An invalid language tag, or a runtime without Intl.PluralRules.
+      rules = null
+    }
+    intlRules.set(locale, rules)
+  }
+
+  return rules
+}
+
+/**
+ * Plural category of `n` in `locale`. Locales with built-in rules (`en`) keep them; every other locale uses the
+ * runtime's CLDR rules through `Intl.PluralRules`. Returns `null` when the runtime has no rules for the locale.
+ */
+export const getPluralCategory = (locale: string, n: number): PluralCategory | null => {
+  const builtIn = plural[locale]
+
+  if (builtIn) {
+    return builtIn(n)
+  }
+
+  const rules = getIntlRules(locale)
+
+  return rules ? rules.select(n) : null
+}

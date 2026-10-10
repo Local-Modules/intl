@@ -1,4 +1,4 @@
-import plural from './plural'
+import { getPluralCategory } from './plural'
 import getVariableValues from './getVariableValues'
 import type { IntlErrorHandler, IntlMessageValues } from '../types'
 
@@ -38,16 +38,13 @@ const replacePluralVariables = (
         result = variableValues[variableKey].replace(/#\s?/g, '')
       }
       else {
-        const pluralFn = plural[locale]
-        if (!pluralFn) {
+        const category = getPluralCategory(locale, Number(value))
+        if (!category) {
           onError?.(`No plural rules for locale "${locale}", falling back to "other"`)
           variableKey = 'other'
         }
         else {
-          variableKey = pluralFn(Number(value))
-          if (!variableValues[variableKey]) {
-            variableKey = 'other'
-          }
+          variableKey = variableValues[category] ? category : 'other'
         }
         result = (variableValues[variableKey] ?? '').replace(/#/g, String(value))
       }

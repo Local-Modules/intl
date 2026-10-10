@@ -69,6 +69,16 @@ describe('formatMessage', () => {
     expect(formatMessage('es', { en: 'Hello', es: 'Hola' }, undefined, undefined, 'en')).toBe('Hola')
   })
 
+  it('resolves plural clauses with the CLDR rules of a locale without built-in rules', () => {
+    const msg = {
+      en: '{count, plural, one {# product} other {# products}}',
+      fr: '{count, plural, one {# produit} other {# produits}}',
+    }
+    expect(formatMessage('fr', msg, { count: 0 })).toBe('0 produit')
+    expect(formatMessage('fr', msg, { count: 1 })).toBe('1 produit')
+    expect(formatMessage('fr', msg, { count: 2 })).toBe('2 produits')
+  })
+
   it('uses fallback locale for plural rules after defaultLocale fallback', () => {
     const msg = { en: '{count, plural, one {# product} other {# products}}' }
     expect(formatMessage('fr', msg, { count: 5 }, undefined, 'en')).toBe('5 products')

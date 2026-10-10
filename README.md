@@ -172,7 +172,7 @@ Prefer `<Message />` when possible; use `formatMessage` only when you need a raw
 </IntlProvider>
 ```
 
-`onError` is called on missing messages, missing translations, missing components, and missing plural rules. Unhandled translations resolve to the sentinel `MISSED_TRANSLATION` (`{{ missed_translation }}`).
+`onError` is called on missing messages, missing translations, missing components, and plural rules missing for a locale the runtime does not know. Unhandled translations resolve to the sentinel `MISSED_TRANSLATION` (`{{ missed_translation }}`).
 
 ## Message syntax
 
@@ -199,6 +199,18 @@ formatMessage(message, { count: 1 }) // '1 product'
 formatMessage(message, { count: 0 }) // '0 products'
 formatMessage(message, { count: 1 }) // '1 product'
 ```
+
+Plural forms follow each locale's CLDR rules. English uses the library's own rules: besides `one` and `other`, a message may give a `zero` branch for 0 and a `two` branch for 2. Every other locale uses the runtime's `Intl.PluralRules`, so its `one`, `few`, `many` and `other` categories match the language:
+
+```ts
+'{count, plural, one {# produto} other {# produtos}}'
+
+// pt-BR puts 0 and 1 in `one`
+formatMessage(message, { count: 0 }) // '0 produto'
+formatMessage(message, { count: 2 }) // '2 produtos'
+```
+
+A locale the runtime has no plural data for falls back to the `other` branch and reports it through `onError`.
 
 ### Select
 
